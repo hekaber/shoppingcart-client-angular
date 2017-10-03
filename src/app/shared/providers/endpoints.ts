@@ -9,7 +9,7 @@ export class EndpointsProvider {
   }
 
   getSignup(){
-    return this.API_PATH + "/signup";
+    return this.API_PATH + "/users/signup";
   }
 
 }

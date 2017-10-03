@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService, User} from '../../shared/providers/authentication.service';
+import { AuthenticationService} from '../../shared/providers/authentication.service';
+import { User } from '../../shared/models/user';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { AuthenticationService, User} from '../../shared/providers/authenticatio
 })
 export class LoginComponent implements OnInit {
 
-  public user = new User('','');
+  public user = new User('','', '', '', '');
   public errorMsg = '';
 
   constructor(
