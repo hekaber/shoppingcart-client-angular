@@ -12,4 +12,11 @@ export class EndpointsProvider {
     return this.API_PATH + "/users/signup";
   }
 
+  getProducts(){
+    return this.API_PATH + "/products";
+  }
+
+  getProduct(productId:string){
+    return this.API_PATH + "/products/" + productId;
+  }
 }
