@@ -17,9 +17,22 @@ export class LoginComponent implements OnInit {
       private _service:AuthenticationService) {}
 
   login() {
-      if(!this._service.login(this.user)){
-          this.errorMsg = 'Failed to login';
-      }
+    console.log(this.user);
+    this._service
+      .login(this.user.userName, this.user.password)
+      .subscribe(
+        resp => {
+          if(resp.status === 200){
+            console.log('OK!!!!!!!!!');
+          }
+          console.log('login component' + resp);
+        },
+        err => {
+          console.log(err);
+          let errBodyObj = JSON.parse(err._body);
+          this.errorMsg = errBodyObj.message;
+        }
+      );
   }
 
   ngOnInit() {

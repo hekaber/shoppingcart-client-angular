@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { AsyncLocalStorageModule } from 'angular-async-local-storage'
 
 import { APP_ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
@@ -38,6 +39,7 @@ import {ProductService} from "./shared/providers/product.service";
   ],
   imports: [
     BrowserModule,
+    AsyncLocalStorageModule,
     HttpModule,
     FormsModule,
     RouterModule.forRoot(APP_ROUTES)

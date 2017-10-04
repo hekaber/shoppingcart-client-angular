@@ -21,7 +21,10 @@ export class ProductService {
   getProducts(): Observable<Array<IProduct>> {
     return this._http.get(this._endpoints.getProducts())
       .do((res: Response) => console.log(`GET query to '${res.url}':'${res.status}'`))
-      .map(res => res.json())
+      .do((res: Response) => console.log(res))
+      .map(res =>
+        res.json()
+      )
       .catch(this._handleError('No products'));
   }
 
