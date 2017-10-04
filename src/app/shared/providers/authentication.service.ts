@@ -13,8 +13,8 @@ export class AuthenticationService {
   private authUser = new BehaviorSubject(null);
 
   constructor(private _router: Router,
-              private readonly endpoints: EndpointsProvider,
-              private readonly http: Http,){}
+              private readonly _endpoints: EndpointsProvider,
+              private readonly _http: Http,){}
 
   logout() {
     // localStorage.removeItem("user");
@@ -39,16 +39,17 @@ export class AuthenticationService {
 
   signup(values: any): Observable<any> {
     console.log('Signing up');
-    return this.http.post(this.endpoints.getSignup(), values)
+    return this._http.post(this._endpoints.getSignup(), values)
       .map(response => {
-        console.log(response.text());
+        console.log(response);
         return response.text();
-      });
+      })
+      .catch(err => Observable.throw(this.handleErrors(err)));
   }
 
   private handleErrors(err: any): any {
-    if (!err.ok && err.statusText == '') {
-      err.statusText = 'Erreur de connexion avec le serveur';
+    if (!err.ok && err.status == 409) {
+      err.statusText = 'Username or email already exists';
     }
     return err;
   }
