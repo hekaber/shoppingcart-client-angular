@@ -14,6 +14,8 @@ import { EndpointsProvider } from './shared/providers/endpoints';
 import { Http, RequestOptions } from '@angular/http';
 // import { JwtHelper, AuthConfig, AuthHttp } from 'angular2-jwt';
 import { JwtHelper } from 'angular2-jwt';
+import { ProductListComponent } from './modules/home/product-list/product-list.component';
+import {ProductService} from "./shared/providers/product.service";
 
 // Auth Factory
 // TODO: add storage for token
@@ -31,7 +33,8 @@ import { JwtHelper } from 'angular2-jwt';
     AppComponent,
     SignupComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    ProductListComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { JwtHelper } from 'angular2-jwt';
   providers: [
     AuthenticationService,
     EndpointsProvider,
-    JwtHelper
+    JwtHelper,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
