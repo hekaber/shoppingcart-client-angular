@@ -12,7 +12,7 @@ export const APP_ROUTES: Routes = [
   { path: 'home', children: [
       { path:'', component: ProductListComponent },
       {
-        path: ':id',
+        path: 'product/:id',
         component: ProductDetailComponent,
         resolve: {product: ProductDetailResolve }
       },
