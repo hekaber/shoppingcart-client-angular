@@ -18,7 +18,7 @@ import { JwtHelper } from 'angular2-jwt';
 import { ProductListComponent } from './modules/home/product-list/product-list.component';
 import {ProductService} from "./shared/providers/product.service";
 import { ProductFilterPipe } from './modules/home/product-list/product-filter.pipe';
-import { ProductDetailComponent } from './modules/home/product-detail/product-detail/product-detail.component';
+import { ProductDetailComponent } from './modules/home/product-detail/product-detail.component';
 import {ProductDetailResolve} from "./shared/resolves/product-resolve";
 
 // Auth Factory
