@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, Response } from "@angular/http";
 import { JwtHelper, AuthHttp } from 'angular2-jwt';
-import { AsyncLocalStorage } from 'angular-async-local-storage';
 import { Observable, BehaviorSubject } from "rxjs";
 
 import { EndpointsProvider } from './endpoints';
 import { User } from '../models/user';
+import { AUTH_TOKEN } from '../constants';
 
 @Injectable()
 export class AuthenticationService {
@@ -18,8 +18,7 @@ export class AuthenticationService {
   constructor(private _router: Router,
               private readonly _endpoints: EndpointsProvider,
               private readonly _http: Http,
-              private readonly jwtHelper: JwtHelper,
-              protected storage: AsyncLocalStorage){}
+              private readonly jwtHelper: JwtHelper){}
 
   logout() {
     // localStorage.removeItem("user");
@@ -36,10 +35,6 @@ export class AuthenticationService {
       )
   }
 
-   checkCredentials(){
-
-  }
-
   signup(values: any): Observable<any> {
     console.log('Signing up');
     return this._http.post(this._endpoints.getSignup(), values)
@@ -52,7 +47,7 @@ export class AuthenticationService {
   //Stores the auth token in the local storage
   private handleResponse(response: Response){
     let authToken = response.headers.get('authorization');
-    localStorage.setItem('auth_token', authToken);
+    localStorage.setItem(AUTH_TOKEN, authToken);
     //put the decoded token in the Behaviorsubject
     this.authUser.next(this.jwtHelper.decodeToken(authToken));
   }
