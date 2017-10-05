@@ -1,3 +1,27 @@
-<p>
-  cart-list works!
-</p>
+<p>Cart List</p>
+<input [(ngModel)]='listFilter' type="text" value="cart">
+<!--<p>{{ listFilter | reverse }}</p>-->
+<table class="table">
+  <thead>
+  <tr>
+    <td>User name</td>
+    <td>ID</td>
+    <td>Order date</td>
+    <td>Last Modified</td>
+    <td>Total price</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let cart of cart$ | async | cartFilter:listFilter">
+    <!--<td><a [routerLink]="['cart/' + cart.id]">{{ product.productName }}</a></td>-->
+    <td>{{cart.userName}}</td>
+    <td>{{ cart.id }}</td>
+    <td>{{ cart.orderDate | date }}</td>
+    <td>{{ cart.lastModified}}</td>
+    <td>{{ cart.totalPrice }}</td>
+  </tr>
+  </tbody>
+  <span>{{errorMsg}}</span>
+</table>
+

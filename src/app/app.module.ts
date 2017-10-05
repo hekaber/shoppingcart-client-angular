@@ -23,6 +23,9 @@ import {ProductDetailResolve} from "./shared/resolves/product-resolve";
 import { CartListComponent } from './modules/carts/cart-list/cart-list.component';
 import { CartDetailComponent } from './modules/carts/cart-detail/cart-detail.component';
 import { HeaderComponent } from './modules/layout/header/header.component';
+import { CartsComponent } from './modules/carts/carts.component';
+import {CartService} from "./shared/providers/cart.service";
+import {CartFilterPipe} from "./modules/carts/cart-list/cart-filter.pipe";
 
 
 // Auth Factory
@@ -45,9 +48,11 @@ import { HeaderComponent } from './modules/layout/header/header.component';
     HomeComponent,
     ProductListComponent,
     ProductFilterPipe,
+    CartFilterPipe,
     ProductDetailComponent,
     CartListComponent,
-    CartDetailComponent
+    CartDetailComponent,
+    CartsComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,8 @@ import { HeaderComponent } from './modules/layout/header/header.component';
     EndpointsProvider,
     JwtHelper,
     ProductService,
-    ProductDetailResolve
+    ProductDetailResolve,
+    CartService
   ],
   bootstrap: [AppComponent]
 })

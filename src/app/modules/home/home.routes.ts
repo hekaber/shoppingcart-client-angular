@@ -14,4 +14,4 @@ export const HOME_ROUTES: Routes = [
     resolve: {product: ProductDetailResolve }
   },
   { path: '**', redirectTo: '' }
-]
+];

@@ -15,13 +15,12 @@ export class AuthenticationService {
   public user$: Observable<User> = this.authUser.asObservable();
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private _router: Router,
-              private readonly _endpoints: EndpointsProvider,
+  constructor(private readonly _endpoints: EndpointsProvider,
               private readonly _http: Http,
-              private readonly jwtHelper: JwtHelper){}
+              private readonly _jwtHelper: JwtHelper){}
 
   logout() {
-    // localStorage.removeItem("user");
+    localStorage.removeItem(AUTH_TOKEN);
     // this._router.navigate(['Login']);
   }
 
@@ -48,8 +47,9 @@ export class AuthenticationService {
   private handleResponse(response: Response){
     let authToken = response.headers.get('authorization');
     localStorage.setItem(AUTH_TOKEN, authToken);
+    let decodedToken = this._jwtHelper.decodeToken(authToken);
     //put the decoded token in the Behaviorsubject
-    this.authUser.next(this.jwtHelper.decodeToken(authToken));
+    this.authUser.next(decodedToken);
   }
 
   private handleErrors(err: any): any {
