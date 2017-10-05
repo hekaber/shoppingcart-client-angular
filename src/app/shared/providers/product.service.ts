@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import {Http, RequestOptions, Headers, Response} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -9,6 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 
 import { IProduct } from '../models/product';
 import { EndpointsProvider } from './endpoints';
+import { AUTH_TOKEN, AUTHORIZATION_HEADER } from "../constants";
 
 @Injectable()
 export class ProductService {
@@ -19,9 +20,13 @@ export class ProductService {
   ) { }
 
   getProducts(): Observable<Array<IProduct>> {
-    return this._http.get(this._endpoints.getProducts())
+    // TODO make a request wrapper
+    let token = localStorage.getItem(AUTH_TOKEN);
+    let headers: Headers = new Headers({'Authorization': token});
+    let options: RequestOptions = new RequestOptions({headers: headers});
+
+    return this._http.get(this._endpoints.getProducts(), options)
       .do((res: Response) => console.log(`GET query to '${res.url}':'${res.status}'`))
-      .do((res: Response) => console.log(res))
       .map(res =>
         res.json()
       )
