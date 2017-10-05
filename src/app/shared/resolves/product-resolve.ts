@@ -14,7 +14,6 @@ export class ProductDetailResolve implements Resolve<IProduct> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<IProduct> {
-    console.log(Number(route.paramMap.get('id')));
     return this._productService.get(route.paramMap.get('id'));
   }
 }

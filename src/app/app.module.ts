@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AsyncLocalStorageModule } from 'angular-async-local-storage'
 
@@ -47,6 +47,7 @@ import {ProductDetailResolve} from "./shared/resolves/product-resolve";
     AsyncLocalStorageModule,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES)
   ],
   providers: [

@@ -16,7 +16,7 @@
   </thead>
   <tbody>
   <tr *ngFor='let product of products | async | productFilter:listFilter'>
-    <td><a [routerLink]="[product.id]">{{ product.productName }}</a></td>
+    <td><a [routerLink]="['product/' + product.id]">{{ product.productName }}</a></td>
     <td>{{ product.productCode }}</td>
     <td>{{ product.releaseDate | date }}</td>
     <td>{{ product.description }}</td>

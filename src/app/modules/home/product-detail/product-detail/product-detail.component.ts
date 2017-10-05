@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs/Observable";
 
-import {ProductService} from "../../../../shared/providers/product.service";
 import {IProduct} from "../../../../shared/models/product";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 export enum PRODUCT_DETAIL_MODE {
   VIEW,
@@ -19,11 +19,23 @@ export class ProductDetailComponent implements OnInit {
 
   public product$: Observable<IProduct>;
   private mode: PRODUCT_DETAIL_MODE = PRODUCT_DETAIL_MODE.VIEW;
+  public form: FormGroup
 
   constructor(
     private _route: ActivatedRoute,
-    private _productService: ProductService
-  ) { }
+    private _formBuilder: FormBuilder
+  ) {
+    this.form = _formBuilder.group({
+      'id': '',
+      'productName': ['', Validators.minLength(6)],
+      'productCode': ['', Validators.minLength(6)],
+      'releaseDate': '',
+      'price': '',
+      'description': '',
+      'starRating': ['', Validators.compose([Validators.max(5), Validators.min(0)])],
+      'imageUrl': ''
+    });
+  }
 
   ngOnInit() {
     this.product$ = this._route.data.map(data => data.product);
@@ -36,4 +48,9 @@ export class ProductDetailComponent implements OnInit {
   isEdit() {
     return this.mode === PRODUCT_DETAIL_MODE.EDIT;
   }
+
+  submit() {
+    console.log('Submit');
+  }
+
 }

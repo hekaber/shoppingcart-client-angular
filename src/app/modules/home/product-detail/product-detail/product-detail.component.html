@@ -3,66 +3,66 @@
   <div class="card" *ngIf="product$ | async; let product; else noProductTemplate">
 
     <div *ngIf="isEdit(); else nonEdit;">
-      <!--<form id="prodForm" [formGroup]="form" (submit)="submit()">-->
-        <!--<div class="container-fluid">-->
-          <!--<div class="wrapper row">-->
-            <!--<div class="preview col-md-6">-->
-              <!--<div class="preview-pic tab-content">-->
-                <!--<div><img [src]="product.imageUrl"/></div>-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="details col-md-6">-->
-              <!--<h3>-->
-                <!--Edit Mode-->
-              <!--</h3>-->
-              <!--<div class="row form-group">-->
-                <!--<div class="col-sm-3">-->
-                  <!--<label for="productName">Product name</label>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                  <!--<input id="productName" type="text" formControlName="productName" [value]="product.productName"/>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3">-->
-                  <!--<label for="productCode">Product code</label>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                  <!--<input id="productCode" type="text" formControlName="productCode" [value]="product.productCode"/>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3">-->
-                  <!--<label for="description">Product description</label>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                  <!--<textarea id="description" class="form-control" form="prodForm">{{ product.description }}</textarea>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3">-->
-                  <!--<label for="productRelease">Product availability</label>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                  <!--<input id="productRelease" type="text" formControlName="releaseDate" [value]="product.releaseDate"/>-->
-                <!--</div>-->
-                <!--<div class="col-sm-3">-->
-                  <!--<label for="price">Product price</label>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                  <!--<input id="price" type="text" formControlName="price" [value]="product.price"/>-->
-                <!--</div>-->
+      <form id="prodForm" [formGroup]="form" (submit)="submit()">
+        <div class="container-fluid">
+          <div class="wrapper row">
+            <div class="preview col-md-6">
+              <div class="preview-pic tab-content">
+                <div><img [src]="product.imageUrl"/></div>
+              </div>
+            </div>
+            <div class="details col-md-6">
+              <h3>
+                Edit Mode
+              </h3>
+              <div class="row form-group">
+                <div class="col-sm-3">
+                  <label for="productName">Product name</label>
+                </div>
+                <div class="col-sm-6">
+                  <input id="productName" type="text" formControlName="productName" [value]="product.productName"/>
+                </div>
+                <div class="col-sm-3">
+                  <label for="productCode">Product code</label>
+                </div>
+                <div class="col-sm-6">
+                  <input id="productCode" type="text" formControlName="productCode" [value]="product.productCode"/>
+                </div>
+                <div class="col-sm-3">
+                  <label for="description">Product description</label>
+                </div>
+                <div class="col-sm-6">
+                  <textarea id="description" class="form-control" form="prodForm">{{ product.description }}</textarea>
+                </div>
+                <div class="col-sm-3">
+                  <label for="productRelease">Product availability</label>
+                </div>
+                <div class="col-sm-6">
+                  <input id="productRelease" type="text" formControlName="releaseDate" [value]="product.releaseDate"/>
+                </div>
+                <div class="col-sm-3">
+                  <label for="price">Product price</label>
+                </div>
+                <div class="col-sm-6">
+                  <input id="price" type="text" formControlName="price" [value]="product.price"/>
+                </div>
                 <!--<div class="col-sm-3">-->
                   <!--<label for="rating">Product rating</label>-->
                 <!--</div>-->
                 <!--<div class="col-sm-6">-->
                   <!--<app-star-rating id="rating" [rating]="form.get('starRating').value"></app-star-rating>-->
                 <!--</div>-->
-              <!--</div>-->
+              </div>
 
-              <!--<div class="action">-->
-                <!--<button class="btn btn-default" routerLink="../">Back to products</button>-->
-                <!--&lt;!&ndash;<button class="btn btn-default" (click)="submit()">Save</button>&ndash;&gt;-->
-                <!--<input type="submit" [disabled]="form.invalid" />-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</form>-->
+              <div class="action">
+                <button class="btn btn-default" routerLink="../">Back to products</button>
+                <!--<button class="btn btn-default" (click)="submit()">Save</button>-->
+                <input type="submit" [disabled]="form.invalid" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
     <ng-template #nonEdit>
       <div class="container-fluid">
