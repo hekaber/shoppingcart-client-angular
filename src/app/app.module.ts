@@ -20,6 +20,9 @@ import {ProductService} from "./shared/providers/product.service";
 import { ProductFilterPipe } from './modules/home/product-list/product-filter.pipe';
 import { ProductDetailComponent } from './modules/home/product-detail/product-detail.component';
 import {ProductDetailResolve} from "./shared/resolves/product-resolve";
+import { CartListComponent } from './modules/carts/cart-list/cart-list.component';
+import { CartDetailComponent } from './modules/carts/cart-detail/cart-detail.component';
+
 
 // Auth Factory
 // TODO: add storage for token
@@ -40,7 +43,9 @@ import {ProductDetailResolve} from "./shared/resolves/product-resolve";
     HomeComponent,
     ProductListComponent,
     ProductFilterPipe,
-    ProductDetailComponent
+    ProductDetailComponent,
+    CartListComponent,
+    CartDetailComponent
   ],
   imports: [
     BrowserModule,
