@@ -8,10 +8,9 @@
     <td>Name</td>
     <td>Code</td>
     <td>Release date</td>
-    <td>Category</td>
     <td>Description</td>
     <td>Price</td>
-    <td>StartRating</td>
+    <!--<td>StartRating</td>-->
     <td></td>
   </tr>
   </thead>
@@ -20,7 +19,6 @@
     <td><a [routerLink]="[product.id]">{{ product.productName }}</a></td>
     <td>{{ product.productCode }}</td>
     <td>{{ product.releaseDate | date }}</td>
-    <td></td>
     <td>{{ product.description }}</td>
     <td>{{ product.price }}</td>
     <!--<td>-->

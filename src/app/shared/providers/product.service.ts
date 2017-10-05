@@ -34,7 +34,13 @@ export class ProductService {
   }
 
   get(id: string): Observable<IProduct> {
-    return this._http.get(this._endpoints.getProduct(id))
+
+    // TODO make a request wrapper
+    let token = localStorage.getItem(AUTH_TOKEN);
+    let headers: Headers = new Headers({'Authorization': token});
+    let options: RequestOptions = new RequestOptions({headers: headers});
+
+    return this._http.get(this._endpoints.getProduct(id), options)
       .do((res: Response) => console.log(`GET query to '${res.url}':'${res.status}'`))
       .map(res => res.json())
       .catch(this._handleError('Product was not found'));

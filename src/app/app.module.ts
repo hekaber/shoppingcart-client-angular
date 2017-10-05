@@ -12,12 +12,14 @@ import { LoginComponent } from './modules/login/login.component';
 import { HomeComponent } from './modules/home/home.component';
 import { AuthenticationService } from './shared/providers/authentication.service';
 import { EndpointsProvider } from './shared/providers/endpoints';
-import { Http, RequestOptions } from '@angular/http';
+// import { Http, RequestOptions } from '@angular/http';
 // import { JwtHelper, AuthConfig, AuthHttp } from 'angular2-jwt';
 import { JwtHelper } from 'angular2-jwt';
 import { ProductListComponent } from './modules/home/product-list/product-list.component';
 import {ProductService} from "./shared/providers/product.service";
 import { ProductFilterPipe } from './modules/home/product-list/product-filter.pipe';
+import { ProductDetailComponent } from './modules/home/product-detail/product-detail/product-detail.component';
+import {ProductDetailResolve} from "./shared/resolves/product-resolve";
 
 // Auth Factory
 // TODO: add storage for token
@@ -37,7 +39,8 @@ import { ProductFilterPipe } from './modules/home/product-list/product-filter.pi
     LoginComponent,
     HomeComponent,
     ProductListComponent,
-    ProductFilterPipe
+    ProductFilterPipe,
+    ProductDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { ProductFilterPipe } from './modules/home/product-list/product-filter.pi
     AuthenticationService,
     EndpointsProvider,
     JwtHelper,
-    ProductService
+    ProductService,
+    ProductDetailResolve
   ],
   bootstrap: [AppComponent]
 })
