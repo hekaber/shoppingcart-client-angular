@@ -59,8 +59,8 @@ export class ProductService {
    * @param id The product id
    * @return an observable of Iproduct form the HTTP request
    */
-  update(id: string, product: IProduct): Observable<IProduct> {
-    return this._request(RequestMethod.Put, this._endpoints.getProduct(id), product)
+  update(product: IProduct): Observable<IProduct> {
+    return this._request(RequestMethod.Put, this._endpoints.getProduct(product.id), product)
       .catch(this._handleError('Product was not found'));
   }
 
