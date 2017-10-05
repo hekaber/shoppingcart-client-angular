@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
 export class ProductListComponent implements OnInit {
 
   public toggleText: string  = 'Hide Images';
-  public products: Observable<IProduct[]>;
+  public product$: Observable<IProduct[]>;
   private _displayImg: boolean = true;
 
   listFilter = '';
@@ -20,7 +20,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit() {
     console.log('Product list Init!!!!!!');
-    this.products = this._productService.getProducts();
+    this.product$ = this._productService.getAll();
   }
 
 
