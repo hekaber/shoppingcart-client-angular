@@ -17,6 +17,7 @@ import { Http, RequestOptions } from '@angular/http';
 import { JwtHelper } from 'angular2-jwt';
 import { ProductListComponent } from './modules/home/product-list/product-list.component';
 import {ProductService} from "./shared/providers/product.service";
+import { ProductFilterPipe } from './modules/home/product-list/product-filter.pipe';
 
 // Auth Factory
 // TODO: add storage for token
@@ -35,7 +36,8 @@ import {ProductService} from "./shared/providers/product.service";
     SignupComponent,
     LoginComponent,
     HomeComponent,
-    ProductListComponent
+    ProductListComponent,
+    ProductFilterPipe
   ],
   imports: [
     BrowserModule,
