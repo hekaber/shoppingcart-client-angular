@@ -21,10 +21,10 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     console.log('Product list Init!!!!!!');
     this.products = this._productService.getProducts();
-    this.products.subscribe(
-      resp => console.log(resp),
-      err => console.log(err)
-    );
+    // this.products.subscribe(
+    //   resp => console.log(resp),
+    //   err => console.log(err)
+    // );
   }
 
 
@@ -33,4 +33,7 @@ export class ProductListComponent implements OnInit {
     this.toggleText = this._displayImg ? 'Hide Images' : 'Display Images';
   }
 
+  getDisplayImg(){
+    return this._displayImg;
+  }
 }

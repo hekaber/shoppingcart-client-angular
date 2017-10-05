@@ -1,35 +1,35 @@
 <p>Product List</p>
-<!--<button class="btn btn-primary" (click)="toggleImage()">{{ toggleText }}</button>-->
-<!--<input [(ngModel)]='listFilter' type="text" value="cart">-->
+<button class="btn btn-primary" (click)="toggleImage()">{{ toggleText }}</button>
+<input [(ngModel)]='listFilter' type="text" value="cart">
 <!--<p>{{ listFilter | reverse }}</p>-->
-<!--<table class="table">-->
-  <!--<thead>-->
-  <!--<tr>-->
-    <!--<td>Name</td>-->
-    <!--<td>Code</td>-->
-    <!--<td>Release date</td>-->
-    <!--<td>Category</td>-->
-    <!--<td>Description</td>-->
-    <!--<td>Price</td>-->
-    <!--<td>StartRating</td>-->
-    <!--<td></td>-->
-  <!--</tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-  <!--<tr *ngFor='let product of products | async | productFilter:listFilter'>-->
-    <!--<td><a [routerLink]="[product.id]">{{ product.productName }}</a></td>-->
-    <!--<td>{{ product.productCode }}</td>-->
-    <!--<td>{{ product.releaseDate }}</td>-->
-    <!--<td></td>-->
-    <!--<td>{{ product.description }}</td>-->
-    <!--<td>{{ product.price }}</td>-->
-    <!--&lt;!&ndash;<td>&ndash;&gt;-->
-      <!--&lt;!&ndash;<app-star-rating [rating]="product.starRating" (ratingClicked)="product.starRating = $event">&ndash;&gt;-->
+<table class="table">
+  <thead>
+  <tr>
+    <td>Name</td>
+    <td>Code</td>
+    <td>Release date</td>
+    <td>Category</td>
+    <td>Description</td>
+    <td>Price</td>
+    <td>StartRating</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor='let product of products | async | productFilter:listFilter'>
+    <td><a [routerLink]="[product.id]">{{ product.productName }}</a></td>
+    <td>{{ product.productCode }}</td>
+    <td>{{ product.releaseDate | date }}</td>
+    <td></td>
+    <td>{{ product.description }}</td>
+    <td>{{ product.price }}</td>
+    <!--<td>-->
+      <!--<app-star-rating [rating]="product.starRating" (ratingClicked)="product.starRating = $event">-->
 
-      <!--&lt;!&ndash;</app-star-rating>&ndash;&gt;-->
-    <!--&lt;!&ndash;</td>&ndash;&gt;-->
-    <!--<td><img width="50px" [src]='product.imageUrl' *ngIf="_displayImg"></td>-->
-  <!--</tr>-->
-  <!--</tbody>-->
-<!--</table>-->
+      <!--</app-star-rating>-->
+    <!--</td>-->
+    <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
+  </tr>
+  </tbody>
+</table>
 
