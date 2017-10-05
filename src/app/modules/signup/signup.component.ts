@@ -14,8 +14,8 @@ export class SignupComponent implements OnInit {
   public errorMsg = '';
 
   constructor(
-    private _service:AuthenticationService,
-    private _router:Router
+    private _service: AuthenticationService,
+    private _router: Router
   ) { }
 
   signup(){

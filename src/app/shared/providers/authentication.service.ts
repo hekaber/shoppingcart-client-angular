@@ -49,26 +49,12 @@ export class AuthenticationService {
       .catch(err => Observable.throw(this.handleErrors(err)));
   }
 
-  private handleResponse(response: Response) {
+  //Stores the auth token in the local storage
+  private handleResponse(response: Response){
     let authToken = response.headers.get('authorization');
-    console.log(authToken);
-    return this.storage.setItem('auth_token', authToken).subscribe(
-      () => {
-        console.log('stored!!!!!');
-        console.log(this.authUser.getValue());
-        this.authUser.next(this.jwtHelper.decodeToken(authToken));
-        console.log(this.authUser.getValue());
-      },
-      () => {
-        Observable.throw(this.handleErrors('Not stored'));
-      }
-    );
-      // .map(() => {
-      //   console.log('stored!!!!!');
-      //   this.authUser.next(this.jwtHelper.decodeToken(authToken));
-      //   return authToken;
-      // })
-      // .catch(err => Observable.throw(this.handleErrors(err)));
+    localStorage.setItem('auth_token', authToken);
+    //put the decoded token in the Behaviorsubject
+    this.authUser.next(this.jwtHelper.decodeToken(authToken));
   }
 
   private handleErrors(err: any): any {
