@@ -22,6 +22,7 @@ import { ProductDetailComponent } from './modules/home/product-detail/product-de
 import {ProductDetailResolve} from "./shared/resolves/product-resolve";
 import { CartListComponent } from './modules/carts/cart-list/cart-list.component';
 import { CartDetailComponent } from './modules/carts/cart-detail/cart-detail.component';
+import { HeaderComponent } from './modules/layout/header/header.component';
 
 
 // Auth Factory
@@ -40,6 +41,7 @@ import { CartDetailComponent } from './modules/carts/cart-detail/cart-detail.com
     AppComponent,
     SignupComponent,
     LoginComponent,
+    HeaderComponent,
     HomeComponent,
     ProductListComponent,
     ProductFilterPipe,
