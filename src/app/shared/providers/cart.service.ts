@@ -27,7 +27,7 @@ export class CartService {
   /**
    * Make a get request to retrieve all products
    *
-   * @return an observable of Iproduct[] form the HTTP request
+   * @return an observable of ICart[] form the HTTP request
    */
   getAll(): Observable<Array<ICart>> {
     return this._request(RequestMethod.Get, this._endpoints.getCarts());
@@ -60,7 +60,7 @@ export class CartService {
     return this._http.request(url, requestOption)
       .do((res: Response) => console.log(`${method.toString()}' query to '${res.url}':'${res.status}'`))
       .map(res => res.json())                        // Transform Http Response into a JSON Object
-      .do(product => this._syncDataStore(product))          // Sync server response with dataStore
+      .do(cart => this._syncDataStore(cart));          // Sync server response with dataStore
   }
 
   /**
@@ -78,13 +78,13 @@ export class CartService {
     // For each products, we'll check if it exists into the dataStore
     // --> if yes, we update the value
     // --> if no, we add the value
-    carts.forEach(product => {
-      const productId = product.id;
+    carts.forEach(cart => {
+      const productId = cart.id;
       const currentIndex = this._dataStore.carts.findIndex(storeProduct => storeProduct.id === productId);
       if (currentIndex < 0) { // When not found product into dataStore
-        this._dataStore.carts.push(product);
+        this._dataStore.carts.push(cart);
       } else {
-        this._dataStore.carts[currentIndex] = product;
+        this._dataStore.carts[currentIndex] = cart;
       }
     });
     this._emitDataStore();
