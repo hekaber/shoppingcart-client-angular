@@ -10,6 +10,7 @@ export interface ICart {
   status: string;
   userName: string;
   products: Map<string, IProduct>;
+  productQuantities: Map<string, number>,
   lastModified: Date;
   orderDate: Date;
   totalPrice: number;
