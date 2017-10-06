@@ -60,10 +60,6 @@ export class ProductDetailComponent {
     });
   }
 
-  // ngOnInit() {
-  //   this.product$ = this._route.data.map(data => data.product);
-  // }
-
   toggleMode() {
     this.mode = this.isEdit() ? PRODUCT_DETAIL_MODE.VIEW : PRODUCT_DETAIL_MODE.EDIT;
   }
