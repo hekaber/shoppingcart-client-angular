@@ -32,7 +32,6 @@ export class CartListComponent implements OnInit, OnDestroy {
     this._cartSubscription = this.cart$.subscribe(
       (resp) => {console.log('OKKKKKK')},
       (err) => {
-        console.log('NOKKKKKK');
         let errJson = JSON.parse(err._body);
         this.errorMsg = errJson.error;
       }
