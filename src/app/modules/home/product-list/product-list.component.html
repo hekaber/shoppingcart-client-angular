@@ -30,6 +30,7 @@
       <!--</td>-->
       <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
       <td *ngIf="isShop()">
+
         <button class="btn btn-primary" (click)="addProduct(product)">Add</button>
         <button class="btn btn-primary" (click)="removeProduct(product)" *ngIf="shoppingCartCreated()">Remove</button>
       </td>
@@ -43,25 +44,31 @@
   <div *ngIf="cart$ | async; let cart; else noCartTemplate">
   <p>User Name: {{cart.userName}}</p>
   <p>Status: {{cart.status}}</p>
-  <p>Products: </p>
+  <p>Products:</p>
   <table class="table">
     <thead>
     <tr>
       <td>Name</td>
       <td>Code</td>
       <td>Price</td>
-      <td>Quantity</td>
+      <td>Description</td>
     </tr>
     </thead>
-    <tbody>
-    <!--<tr *ngFor="let product of product$ | async | productFilter:listFilter">-->
-      <!--<td><a [routerLink]="['product/' + product.id]">{{ product.productName }}</a></td>-->
-      <!--<td>{{ product.productCode }}</td>-->
-      <!--<td>{{ product.releaseDate | date }}</td>-->
-      <!--<td>{{ product.description }}</td>-->
-      <!--<td>{{ product.price }}</td>-->
-    <!--</tr>-->
-    </tbody>
+    <div *ngIf="(cart.products | json) != ({} | json); else noProductsInCartTemplate">
+      <tbody>
+      <tr *ngFor="let prod of (cart.products | objectToArray)">
+        <td><a [routerLink]="['product/' + prod[0]]">{{ prod[1].productName }}</a></td>
+        <td>{{ prod[1].productCode }}</td>
+        <td>{{ prod[1].price }}</td>
+        <td>{{ prod[1].description }}</td>
+      <!--<td>{{ cart.products[key].price }}</td>-->
+      </tr>
+      </tbody>
+    </div>
+    <ng-template #noProductsInCartTemplate>
+      <p>Empty!!!!</p>
+    </ng-template>
+
   </table>
   </div>
   <ng-template #noCartTemplate>
