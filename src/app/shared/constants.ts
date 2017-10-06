@@ -5,3 +5,5 @@ export const AUTH_TOKEN: string = 'auth_token';
 export const AUTHORIZATION_HEADER: string = 'Authorization';
 export const CONTENT_TYPE: string = 'Content-Type';
 export const APP_JSON: string = 'application/json';
+export const CART_STATUS_PENDING: string = 'pending';
+export const CART_STATUS_ORDERED: string = 'ordered';
