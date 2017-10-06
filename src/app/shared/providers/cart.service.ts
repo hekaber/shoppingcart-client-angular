@@ -30,8 +30,7 @@ export class CartService {
    * @return an observable of Iproduct[] form the HTTP request
    */
   getAll(): Observable<Array<ICart>> {
-    return this._request(RequestMethod.Get, this._endpoints.getCarts())
-      .catch(this._handleError('No carts'));
+    return this._request(RequestMethod.Get, this._endpoints.getCarts());
   }
 
   getByUserName(userName: string): Observable<Array<ICart>> {
