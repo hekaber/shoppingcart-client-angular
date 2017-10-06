@@ -37,6 +37,10 @@ export class CartService {
     return this._request(RequestMethod.Post, this._endpoints.getCarts(), cart);
   }
 
+  update(cart: ICart): Observable<ICart>{
+    return this._request(RequestMethod.Put, this._endpoints.getCart(cart.id), cart);
+  }
+
   getByUserName(userName: string): Observable<Array<ICart>> {
     return this._request(RequestMethod.Get, this._endpoints.getCartsByUserName(userName));
   }
