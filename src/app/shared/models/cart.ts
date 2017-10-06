@@ -58,7 +58,7 @@ export class Cart implements ICart {
     );
   }
 
-  addProduct(product: IProduct){
+  addProductItem(product: IProduct){
     console.log(product);
     console.log(this.products);
     if (!(product.id in this.products)){
