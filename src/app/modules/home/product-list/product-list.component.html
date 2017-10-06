@@ -1,33 +1,65 @@
-<p>Product List</p>
-<button class="btn btn-primary" (click)="toggleImage()">{{ toggleText }}</button>
-<input [(ngModel)]='listFilter' type="text" value="cart">
-<!--<p>{{ listFilter | reverse }}</p>-->
-<table class="table">
-  <thead>
-  <tr>
-    <td>Name</td>
-    <td>Code</td>
-    <td>Release date</td>
-    <td>Description</td>
-    <td>Price</td>
-    <!--<td>StartRating</td>-->
-    <td></td>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let product of product$ | async | productFilter:listFilter">
-    <td><a [routerLink]="['product/' + product.id]">{{ product.productName }}</a></td>
-    <td>{{ product.productCode }}</td>
-    <td>{{ product.releaseDate | date }}</td>
-    <td>{{ product.description }}</td>
-    <td>{{ product.price }}</td>
-    <!--<td>-->
-      <!--<app-star-rating [rating]="product.starRating" (ratingClicked)="product.starRating = $event">-->
+<div>
+  <p>Product List</p>
+  <button class="btn btn-primary" (click)="toggleImage()">{{ toggleText }}</button>
+  <input [(ngModel)]='listFilter' type="text" value="cart">
+  <!--<p>{{ listFilter | reverse }}</p>-->
+  <table class="table">
+    <thead>
+    <tr>
+      <td>Name</td>
+      <td>Code</td>
+      <td>Release date</td>
+      <td>Description</td>
+      <td>Price</td>
+      <td></td>
+      <!--<td>StartRating</td>-->
+      <td *ngIf="isShop()"></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of product$ | async | productFilter:listFilter">
+      <td><a [routerLink]="['product/' + product.id]">{{ product.productName }}</a></td>
+      <td>{{ product.productCode }}</td>
+      <td>{{ product.releaseDate | date }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.price }}</td>
+      <!--<td>-->
+        <!--<app-star-rating [rating]="product.starRating" (ratingClicked)="product.starRating = $event">-->
 
-      <!--</app-star-rating>-->
-    <!--</td>-->
-    <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
-  </tr>
-  </tbody>
-</table>
-
+        <!--</app-star-rating>-->
+      <!--</td>-->
+      <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
+      <td *ngIf="isShop()">
+        <button class="btn btn-primary" (click)="addProduct(product.id)">Add</button>
+        <button class="btn btn-primary" (click)="removeProduct(product.id)" *ngIf="shoppingCartCreated()">Remove</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-primary" (click)="toggleMode()">Shopping</button>
+</div>
+<div *ngIf="isShop()">
+  <p>Shopping Cart</p>
+  <p>User Name:</p>
+  <p>Status: </p>
+  <p>Products: </p>
+  <table class="table">
+    <thead>
+    <tr>
+      <td>Name</td>
+      <td>Code</td>
+      <td>Price</td>
+      <td>Quantity</td>
+    </tr>
+    </thead>
+    <tbody>
+    <!--<tr *ngFor="let product of product$ | async | productFilter:listFilter">-->
+      <!--<td><a [routerLink]="['product/' + product.id]">{{ product.productName }}</a></td>-->
+      <!--<td>{{ product.productCode }}</td>-->
+      <!--<td>{{ product.releaseDate | date }}</td>-->
+      <!--<td>{{ product.description }}</td>-->
+      <!--<td>{{ product.price }}</td>-->
+    <!--</tr>-->
+    </tbody>
+  </table>
+</div>
