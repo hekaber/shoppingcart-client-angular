@@ -25,6 +25,6 @@ export class EndpointsProvider {
   }
 
   getCartsByUserName(userName: string){
-    return this.API_PATH + "/carts/" + userName;
+    return this.API_PATH + "/carts/user/" + userName;
   }
 }
