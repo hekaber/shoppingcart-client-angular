@@ -41,6 +41,13 @@ export class CartService {
     return this._request(RequestMethod.Put, this._endpoints.getCart(cart.id), cart);
   }
 
+  addProductToCart(cartId: string, productId: string): Observable<ICart>{
+    return this._request(RequestMethod.Post, this._endpoints.getProductToCart(cartId, productId));
+  }
+
+  removeProductFromCart(cartId: string, productId: string): Observable<ICart>{
+    return this._request(RequestMethod.Delete, this._endpoints.getProductToCart(cartId, productId));
+  }
   getByUserName(userName: string): Observable<Array<ICart>> {
     return this._request(RequestMethod.Get, this._endpoints.getCartsByUserName(userName));
   }

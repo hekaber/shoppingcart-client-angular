@@ -56,7 +56,8 @@ export class ProductDetailComponent {
       'price': '',
       'description': '',
       'starRating': ['', Validators.compose([Validators.max(5), Validators.min(0)])],
-      'imageUrl': ''
+      'imageUrl': '',
+      'stock': ''
     });
   }
 

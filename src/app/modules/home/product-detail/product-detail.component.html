@@ -62,7 +62,7 @@
 
               <div class="action">
                 <button class="btn btn-default" routerLink="../">Back to products</button>
-                <!--<button class="btn btn-default" (click)="submit()">Save</button>-->
+                <button class="btn btn-default" (click)="submit()">Save</button>
                 <input type="submit" [disabled]="form.invalid" />
               </div>
             </div>
@@ -86,6 +86,7 @@
             <!--</div>-->
             <p class="product-description">{{ product.description }}</p>
             <h4 class="price">current price: <span>{{ product.price }}</span></h4>
+            <h4 class="stock">stock available: <span>{{ product.stock }}</span></h4>
             <p class="vote"></p>
 
             <div class="action">

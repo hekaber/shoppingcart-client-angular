@@ -26,6 +26,7 @@ import { HeaderComponent } from './modules/layout/header/header.component';
 import { CartsComponent } from './modules/carts/carts.component';
 import {CartService} from "./shared/providers/cart.service";
 import {CartFilterPipe} from "./modules/carts/cart-list/cart-filter.pipe";
+import {ObjectToArrayPipe} from "./shared/pipes/object-to-array";
 
 
 // Auth Factory
@@ -52,7 +53,8 @@ import {CartFilterPipe} from "./modules/carts/cart-list/cart-filter.pipe";
     ProductDetailComponent,
     CartListComponent,
     CartDetailComponent,
-    CartsComponent
+    CartsComponent,
+    ObjectToArrayPipe
   ],
   imports: [
     BrowserModule,

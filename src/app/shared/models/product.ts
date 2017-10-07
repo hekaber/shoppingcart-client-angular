@@ -11,4 +11,5 @@ export interface IProduct {
   description: string;
   starRating: number;
   imageUrl: string;
+  stock: number;
 }

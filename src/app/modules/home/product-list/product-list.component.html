@@ -31,8 +31,8 @@
       <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
       <td *ngIf="isShop()">
 
-        <button class="btn btn-primary" (click)="addProduct(product)">Add</button>
-        <button class="btn btn-primary" (click)="removeProduct(product)" *ngIf="shoppingCartCreated()">Remove</button>
+        <button class="btn btn-primary" (click)="addProduct(product.id)">Add</button>
+        <button class="btn btn-primary" (click)="removeProduct(product.id)">Remove</button>
       </td>
     </tr>
     </tbody>

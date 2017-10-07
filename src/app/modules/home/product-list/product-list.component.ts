@@ -67,20 +67,18 @@ export class ProductListComponent implements OnInit {
     this.toggleText = this._displayImg ? 'Hide Images' : 'Display Images';
   }
 
-  addProduct(product: IProduct): void {
+  addProduct(productId: string): void {
+    //test it because it contains the cart id
+    // TODO: check for cart persistency in the page lifecycle
     if (this._newCart){
-      this._newCart.addProductItem(product);
-      this._cartService.update(this._newCart).subscribe(
-        (cart) => { console.log(cart)},
-        (err) => { console.log(err)}
-      );
-      console.log(this._newCart);
+      this.cart$ = this._cartService.addProductToCart(this._newCart.id, productId)
     }
-    console.log()
   }
 
   removeProduct(productId: string): void {
-    console.log(productId)
+    if (this._newCart) {
+      this.cart$ = this._cartService.removeProductFromCart(this._newCart.id, productId);
+    }
   }
 
   isShop(){
