@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit {
   title: 'menu';
   constructor(
-    private _service: AuthenticationService,
+    private _authenticationService: AuthenticationService,
     private _router: Router
   ) { }
 
@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(){
-    console.log('logout');
+    this._authenticationService.logout();
+    this._router.navigateByUrl('/login');
   }
 }
