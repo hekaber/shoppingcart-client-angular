@@ -43,8 +43,6 @@ export class CartService {
 
   order(cart: ICart): Observable<ICart> {
     cart.status = "ordered";
-    console.log(cart);
-    cart.totalPrice = 100;
     return this._request(RequestMethod.Post, this._endpoints.getCartOrder(cart.id),
       cart);
   }
