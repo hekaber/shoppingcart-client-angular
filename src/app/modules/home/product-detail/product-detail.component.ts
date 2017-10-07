@@ -39,7 +39,6 @@ export class ProductDetailComponent {
       this._productService.products$,
       (productFromResolve, products) => {
         // Here we got the in-memory collection (products) and the productFromResolve
-        // So let's find our latest in-memory version of this product to listen to it changes
         return products.find(product => product.id === productFromResolve.id)
       })
       .do(product => {
