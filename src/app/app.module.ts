@@ -29,6 +29,8 @@ import {CartFilterPipe} from "./modules/carts/cart-list/cart-filter.pipe";
 import {ObjectToArrayPipe} from "./shared/pipes/object-to-array";
 import { WelcomeComponent } from './modules/welcome/welcome.component';
 import {AuthGuard} from "./shared/guards/auth.guard";
+import { AlertComponent } from './shared/alert/alert.component';
+import {AlertService} from "./shared/providers/alert.service";
 
 
 // Auth Factory
@@ -57,7 +59,8 @@ import {AuthGuard} from "./shared/guards/auth.guard";
     CartDetailComponent,
     CartsComponent,
     ObjectToArrayPipe,
-    WelcomeComponent
+    WelcomeComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,8 @@ import {AuthGuard} from "./shared/guards/auth.guard";
     ProductService,
     ProductDetailResolve,
     CartService,
-    AuthGuard
+    AuthGuard,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })

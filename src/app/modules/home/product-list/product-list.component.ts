@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {JwtHelper} from "angular2-jwt";
 import { Observable } from 'rxjs/Observable';
 
 import { IProduct } from '../../../shared/models/product';
 import { ProductService } from '../../../shared/providers/product.service';
 import {CartService} from "../../../shared/providers/cart.service";
-import {AUTH_TOKEN, CART_STATUS_PENDING} from "../../../shared/constants";
+import {AUTH_TOKEN, CART_STATUS_PENDING, CURR_CART_ID} from "../../../shared/constants";
 import {Cart, ICart} from "../../../shared/models/cart";
+import {AlertService} from "../../../shared/providers/alert.service";
 
 export enum PRODUCT_LIST_MODE {
   LIST,
@@ -18,48 +19,63 @@ export enum PRODUCT_LIST_MODE {
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
 
   public toggleText: string  = 'Hide Images';
   public product$: Observable<IProduct[]>;
   public cart$: Observable<ICart>;
+  public listFilter: string = '';
+  public userName: string = '';
+
   private _displayImg: boolean = true;
-  private _shopClickCount: number = 0;
-  private _userName: string = '';
   private _newCart: Cart;
+  private _cartId: string;
   private mode: PRODUCT_LIST_MODE = PRODUCT_LIST_MODE.LIST;
 
-  listFilter = '';
-  hasShoppingCart: boolean = false;
+
 
   constructor(
     private _productService: ProductService,
     private _cartService: CartService,
-    private _jwtHelper: JwtHelper
+    private _jwtHelper: JwtHelper,
+    private _alertService: AlertService
   ) {
     let token = localStorage.getItem(AUTH_TOKEN);
     let decodedToken = this._jwtHelper.decodeToken(token);
-    console.log(decodedToken.sub);
-    this._newCart = new Cart(CART_STATUS_PENDING, decodedToken.sub);
+    this.userName = decodedToken.sub;
+    this._newCart = new Cart(CART_STATUS_PENDING, this.userName);
   }
 
   ngOnInit() {
     console.log('Product list Init!!!!!!');
     this.product$ = this._productService.getAll();
+    console.log('Checking for cart');
+    this._cartId = localStorage.getItem(CURR_CART_ID);
+    if(this._cartId) this.cart$ = this._cartService.get(this._cartId)
+
   }
 
-  toggleMode() {
-    this.mode = this.isShop() ? PRODUCT_LIST_MODE.LIST : PRODUCT_LIST_MODE.SHOP;
-    if(this._shopClickCount < 1){
+  ngOnDestroy(){
+      localStorage.setItem(CURR_CART_ID, this._cartId);
+  }
+
+  enableShoppingMode(){
+    this.mode = PRODUCT_LIST_MODE.SHOP;
+    if(!this._cartId){
       this.cart$ = this._cartService.save(this._newCart)
         .do(cart => {
+          this._cartId = cart.id;
           this._newCart = Cart.fromICart(cart);
           console.log(this._newCart);
         });
-
     }
-    this._shopClickCount++;
-    console.log(this._shopClickCount);
+  }
+
+  disableShoppingMode(){
+    this.mode = PRODUCT_LIST_MODE.LIST;
+    this.cart$ = null;
+    this._cartId = null;
+
   }
 
   toggleImage(): void {
@@ -70,28 +86,29 @@ export class ProductListComponent implements OnInit {
   addProduct(productId: string): void {
     //test it because it contains the cart id
     // TODO: check for cart persistency in the page lifecycle
-    if (this._newCart){
-      this.cart$ = this._cartService.addProductToCart(this._newCart.id, productId)
+    console.log(productId);
+    if (this._cartId){
+      this.cart$ = this._cartService.addProductToCart(this._cartId, productId);
     }
   }
 
   removeProduct(productId: string): void {
-    if (this._newCart) {
-      this.cart$ = this._cartService.removeProductFromCart(this._newCart.id, productId);
+    if (this._cartId) {
+      this.cart$ = this._cartService.removeProductFromCart(this._cartId, productId);
     }
   }
 
   makeOrder(cart: ICart){
-    cart.status = "ordered";
     this.cart$ = this._cartService.order(cart)
-      .do((cart) =>{console.log(cart)});
-  }
-  isShop(){
-    return this.mode === PRODUCT_LIST_MODE.SHOP;
+      .do((cart) =>{
+        console.log(cart);
+        this._alertService.success("Cart " + cart.id + " ordered!!!");
+        this.mode = PRODUCT_LIST_MODE.LIST
+    });
   }
 
-  shoppingCartCreated(): boolean {
-    return this.hasShoppingCart;
+  isShop(){
+    return this.mode === PRODUCT_LIST_MODE.SHOP;
   }
 
   getDisplayImg(){
