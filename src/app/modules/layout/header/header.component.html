@@ -8,6 +8,12 @@
       <li routerLinkActive="active">
         <a routerLink="carts">Cart List</a>
       </li>
+      <li routerLinkActive="active">
+        <a routerLink="/login">Login</a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="home" (click)="logout()">Logout</a>
+      </li>
     </ul>
     <!--<ul class="nav navbar-nav navbar-right" *ngIf="user$ | async; let user">-->
       <!--<li class="dropdown">-->

@@ -43,11 +43,24 @@ export class AuthenticationService {
       .catch(err => Observable.throw(this.handleErrors(err)));
   }
 
+  checkLogin(): boolean{
+    let token = localStorage.getItem(AUTH_TOKEN);
+    if(token && !this._jwtHelper.isTokenExpired(token)){
+      return true;
+    }
+    else {
+      localStorage.removeItem(AUTH_TOKEN)
+      this.authUser.next(null);
+      return false;
+    }
+  }
+
   //Stores the auth token in the local storage
   private handleResponse(response: Response){
     let authToken = response.headers.get('authorization');
     localStorage.setItem(AUTH_TOKEN, authToken);
     let decodedToken = this._jwtHelper.decodeToken(authToken);
+    console.log(decodedToken);
     //put the decoded token in the Behaviorsubject
     this.authUser.next(decodedToken);
   }

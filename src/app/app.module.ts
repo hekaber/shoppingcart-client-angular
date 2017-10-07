@@ -27,6 +27,8 @@ import { CartsComponent } from './modules/carts/carts.component';
 import {CartService} from "./shared/providers/cart.service";
 import {CartFilterPipe} from "./modules/carts/cart-list/cart-filter.pipe";
 import {ObjectToArrayPipe} from "./shared/pipes/object-to-array";
+import { WelcomeComponent } from './modules/welcome/welcome.component';
+import {AuthGuard} from "./shared/guards/auth.guard";
 
 
 // Auth Factory
@@ -54,7 +56,8 @@ import {ObjectToArrayPipe} from "./shared/pipes/object-to-array";
     CartListComponent,
     CartDetailComponent,
     CartsComponent,
-    ObjectToArrayPipe
+    ObjectToArrayPipe,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,8 @@ import {ObjectToArrayPipe} from "./shared/pipes/object-to-array";
     JwtHelper,
     ProductService,
     ProductDetailResolve,
-    CartService
+    CartService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
