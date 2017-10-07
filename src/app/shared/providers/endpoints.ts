@@ -35,4 +35,8 @@ export class EndpointsProvider {
   getProductToCart(cartId: string, productId: string){
     return this.API_PATH + "/carts/" + cartId + "/product/" + productId;
   }
+
+  getCartOrder(cartId: string){
+    return this.API_PATH + "/carts/order/" + cartId;
+  }
 }

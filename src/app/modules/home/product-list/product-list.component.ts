@@ -81,6 +81,11 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  makeOrder(cart: ICart){
+    cart.status = "ordered";
+    this.cart$ = this._cartService.order(cart)
+      .do((cart) =>{console.log(cart)});
+  }
   isShop(){
     return this.mode === PRODUCT_LIST_MODE.SHOP;
   }

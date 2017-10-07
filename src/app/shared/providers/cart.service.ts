@@ -41,6 +41,14 @@ export class CartService {
     return this._request(RequestMethod.Put, this._endpoints.getCart(cart.id), cart);
   }
 
+  order(cart: ICart): Observable<ICart> {
+    cart.status = "ordered";
+    console.log(cart);
+    cart.totalPrice = 100;
+    return this._request(RequestMethod.Post, this._endpoints.getCartOrder(cart.id),
+      cart);
+  }
+
   addProductToCart(cartId: string, productId: string): Observable<ICart>{
     return this._request(RequestMethod.Post, this._endpoints.getProductToCart(cartId, productId));
   }
@@ -58,7 +66,7 @@ export class CartService {
    * @param url The request url
    * @param payload The payload (for put/post)
    */
-  private _request<T>(method: RequestMethod, url: string, payload?: ICart): Observable<T> {
+  private _request<T>(method: RequestMethod, url: string, payload?: any): Observable<T> {
 
     let token = localStorage.getItem(AUTH_TOKEN);
     let headers: Headers = new Headers({'Authorization': token});
