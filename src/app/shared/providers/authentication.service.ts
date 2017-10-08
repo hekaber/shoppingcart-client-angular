@@ -20,8 +20,7 @@ export class AuthenticationService {
               private readonly _jwtHelper: JwtHelper){}
 
   logout() {
-    localStorage.removeItem(AUTH_TOKEN);
-    // this._router.navigate(['Login']);
+    localStorage.clear();
   }
 
   login(username: string, password: string): Observable<any>{

@@ -20,7 +20,7 @@
       <td>{{ product.productCode }}</td>
       <td>{{ product.releaseDate | date }}</td>
       <td>{{ product.description }}</td>
-      <td>{{ product.price }}</td>
+      <td>{{ product.price | formatToPrice}}</td>
       <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
       <td *ngIf="isShop()">
 
@@ -59,7 +59,7 @@
         <td>{{cart.productQuantities[prod[1].id]}}</td>
       </tr>
       </tbody>
-      <div>Total price: {{cart.totalPrice}}</div>
+      <div>Total price: {{cart.totalPrice | formatToPrice }}</div>
       <button id="order" class="btn btn-primary" (click)="makeOrder(cart)">Order</button>
       <button id="cancel" class="btn btn-danger" (click)="disableShoppingMode(cart)">Cancel</button>
     <ng-template #noProductsInCartTemplate>

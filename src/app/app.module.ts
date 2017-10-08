@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AsyncLocalStorageModule } from 'angular-async-local-storage'
+import { JwtHelper } from 'angular2-jwt';
 
 import { APP_ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
@@ -12,9 +13,6 @@ import { LoginComponent } from './modules/login/login.component';
 import { HomeComponent } from './modules/home/home.component';
 import { AuthenticationService } from './shared/providers/authentication.service';
 import { EndpointsProvider } from './shared/providers/endpoints';
-// import { Http, RequestOptions } from '@angular/http';
-// import { JwtHelper, AuthConfig, AuthHttp } from 'angular2-jwt';
-import { JwtHelper } from 'angular2-jwt';
 import { ProductListComponent } from './modules/home/product-list/product-list.component';
 import {ProductService} from "./shared/providers/product.service";
 import { ProductFilterPipe } from './modules/home/product-list/product-filter.pipe';
@@ -31,6 +29,7 @@ import { WelcomeComponent } from './modules/welcome/welcome.component';
 import {AuthGuard} from "./shared/guards/auth.guard";
 import { AlertComponent } from './shared/alert/alert.component';
 import {AlertService} from "./shared/providers/alert.service";
+import {FormatToPricePipe} from "./shared/pipes/format-to-price";
 
 
 // Auth Factory
@@ -59,6 +58,7 @@ import {AlertService} from "./shared/providers/alert.service";
     CartDetailComponent,
     CartsComponent,
     ObjectToArrayPipe,
+    FormatToPricePipe,
     WelcomeComponent,
     AlertComponent
   ],
