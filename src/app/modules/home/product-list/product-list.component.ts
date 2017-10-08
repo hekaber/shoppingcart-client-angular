@@ -55,7 +55,7 @@ export class ProductListComponent implements OnInit {
     if(this._cartId) this.cart$ = this._cartService.get(this._cartId)
       .catch(
         (error) => {
-          localStorage.removeItem(CURR_CART_ID);
+          this._resetValues();
           this.mode = PRODUCT_LIST_MODE.LIST;
           return Observable.throw(new Error(error));
         });
