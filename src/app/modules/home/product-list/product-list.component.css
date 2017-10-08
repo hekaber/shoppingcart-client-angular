@@ -1,3 +1,8 @@
-.navbar>.container, .navbar>.container-fluid {
-  display: inline !important;
+.shop {
+  background-color: #bcb6c2;
+  padding: 10px;
+  border: 2px solid #000;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }

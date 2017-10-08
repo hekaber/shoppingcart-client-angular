@@ -33,7 +33,7 @@
 </div>
 
 <!--TODO: put this in another component-->
-<div *ngIf="isShop()">
+<div *ngIf="isShop()" class="shop">
   <p>Shopping Cart</p>
   <div *ngIf="cart$ | async; let cart; else noCartTemplate">
   <p>User Name: {{cart.userName}}</p>
@@ -58,14 +58,13 @@
         <td>{{cart.productQuantities[prod[1].id]}}</td>
       </tr>
       </tbody>
-      <div>Total price: {{cart.totalPrice | formatToPrice }}</div>
-      <button id="order" class="btn btn-primary" (click)="makeOrder(cart)">Order</button>
-      <button id="cancel" class="btn btn-danger" (click)="disableShoppingMode(cart)">Cancel</button>
     <ng-template #noProductsInCartTemplate>
       <p>Empty!!!!</p>
     </ng-template>
-
   </table>
+  <h2>Total price: {{cart.totalPrice | formatToPrice }}</h2>
+  <button id="order" class="btn btn-primary" (click)="makeOrder(cart)">Order</button>
+  <button id="cancel" class="btn btn-danger" (click)="disableShoppingMode(cart)">Cancel</button>
   </div>
 </div>
 <alert></alert>
