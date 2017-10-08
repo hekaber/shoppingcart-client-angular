@@ -32,6 +32,8 @@
   </table>
   <button *ngIf="!isShop()" class="btn btn-primary" (click)="enableShoppingMode()">Shopping</button>
 </div>
+
+<!--TODO: put this in another component-->
 <div *ngIf="isShop()">
   <p>Shopping Cart</p>
   <div *ngIf="cart$ | async; let cart; else noCartTemplate">
