@@ -45,6 +45,11 @@ export class CartService {
     return this._request(RequestMethod.Put, this._endpoints.getCart(cart.id), cart);
   }
 
+  delete(cartId: string): Observable<any>{
+    // return this
+    return this._request(RequestMethod.Delete, this._endpoints.getCart(cartId));
+  }
+
   order(cart: ICart): Observable<ICart> {
     cart.status = "ordered";
     return this._request(RequestMethod.Post, this._endpoints.getCartOrder(cart.id),
@@ -81,7 +86,7 @@ export class CartService {
     return this._http.request(url, requestOption)
       .do((res: Response) => console.log(`${method.toString()}' query to '${res.url}':'${res.status}'`))
       .map(res => res.json())                        // Transform Http Response into a JSON Object
-      .do(cart => this._syncDataStore(cart));          // Sync server response with dataStore
+      .do(cart => { if(cart) this._syncDataStore(cart)});          // Sync server response with dataStore
   }
 
   /**
@@ -96,12 +101,9 @@ export class CartService {
     if (!Array.isArray(carts)) {
       carts = [carts];
     }
-    // For each products, we'll check if it exists into the dataStore
-    // --> if yes, we update the value
-    // --> if no, we add the value
     carts.forEach(cart => {
-      const productId = cart.id;
-      const currentIndex = this._dataStore.carts.findIndex(storeProduct => storeProduct.id === productId);
+      const cartId = cart.id;
+      const currentIndex = this._dataStore.carts.findIndex(storeCart => storeCart.id === cartId);
       if (currentIndex < 0) { // When not found product into dataStore
         this._dataStore.carts.push(cart);
       } else {
@@ -118,12 +120,6 @@ export class CartService {
     this._carts$.next(Object.assign({}, this._dataStore).carts);
   }
 
-  private _handleError(errorMessage: string) {
-    return (error: any): Observable<Error> => {
-      console.error(errorMessage, error);
-      return Observable.throw(new Error(error));
-    };
-  }
 }
 
 export interface ICartServiceStore {

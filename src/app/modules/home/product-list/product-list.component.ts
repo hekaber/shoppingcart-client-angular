@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {JwtHelper} from "angular2-jwt";
 import { Observable } from 'rxjs/Observable';
 
@@ -19,7 +19,7 @@ export enum PRODUCT_LIST_MODE {
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
-export class ProductListComponent implements OnInit, OnDestroy {
+export class ProductListComponent implements OnInit {
 
   public toggleText: string  = 'Hide Images';
   public product$: Observable<IProduct[]>;
@@ -51,12 +51,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.product$ = this._productService.getAll();
     console.log('Checking for cart');
     this._cartId = localStorage.getItem(CURR_CART_ID);
+    console.log(this._cartId);
     if(this._cartId) this.cart$ = this._cartService.get(this._cartId)
+      .catch(
+        (error) => {
+          localStorage.removeItem(CURR_CART_ID);
+          this.mode = PRODUCT_LIST_MODE.LIST;
+          return Observable.throw(new Error(error));
+        });
 
-  }
-
-  ngOnDestroy(){
-      localStorage.setItem(CURR_CART_ID, this._cartId);
   }
 
   enableShoppingMode(){
@@ -65,17 +68,32 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.cart$ = this._cartService.save(this._newCart)
         .do(cart => {
           this._cartId = cart.id;
+          localStorage.setItem(CURR_CART_ID, cart.id);
           this._newCart = Cart.fromICart(cart);
           console.log(this._newCart);
-        });
+        }).catch(
+          (error) => {
+            this._alertService.error("Error " + error.message);
+            return Observable.throw(new Error(error));
+          }
+        );
     }
   }
 
-  disableShoppingMode(){
+  disableShoppingMode(cart: ICart){
+    console.log(cart);
     this.mode = PRODUCT_LIST_MODE.LIST;
-    this.cart$ = null;
-    this._cartId = null;
-
+    if(cart.status === "pending"){
+      this._cartService.delete(cart.id).subscribe(
+        (resp) => {
+          this._alertService.info("Cart " + cart.id + " deleted.");
+          this._resetValues();
+        },
+        (err) => {
+          console.log(err);
+          this._alertService.error("Could not delete cart " + cart.id);
+        });
+    }
   }
 
   toggleImage(): void {
@@ -84,8 +102,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   addProduct(productId: string): void {
-    //test it because it contains the cart id
-    // TODO: check for cart persistency in the page lifecycle
     console.log(productId);
     if (this._cartId){
       this.cart$ = this._cartService.addProductToCart(this._cartId, productId);
@@ -103,7 +119,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .do((cart) =>{
         console.log(cart);
         this._alertService.success("Cart " + cart.id + " ordered!!!");
-        this.mode = PRODUCT_LIST_MODE.LIST
+        this._resetValues();
+        this.mode = PRODUCT_LIST_MODE.LIST;
     });
   }
 
@@ -113,5 +130,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   getDisplayImg(){
     return this._displayImg;
+  }
+
+  private _resetValues(){
+    localStorage.removeItem(CURR_CART_ID);
+    this.cart$ = null;
+    this._cartId = null;
   }
 }

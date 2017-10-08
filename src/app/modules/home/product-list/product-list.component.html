@@ -2,7 +2,6 @@
   <h1>Home</h1>
   <button class="btn btn-primary" (click)="toggleImage()">{{ toggleText }}</button>
   <input [(ngModel)]='listFilter' type="text" value="cart">
-  <!--<p>{{ listFilter | reverse }}</p>-->
   <table class="table">
     <thead>
     <tr>
@@ -12,7 +11,6 @@
       <td>Description</td>
       <td>Price</td>
       <td></td>
-      <!--<td>StartRating</td>-->
       <td *ngIf="isShop()"></td>
     </tr>
     </thead>
@@ -23,22 +21,16 @@
       <td>{{ product.releaseDate | date }}</td>
       <td>{{ product.description }}</td>
       <td>{{ product.price }}</td>
-      <!--<td>-->
-        <!--<app-star-rating [rating]="product.starRating" (ratingClicked)="product.starRating = $event">-->
-
-        <!--</app-star-rating>-->
-      <!--</td>-->
       <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
       <td *ngIf="isShop()">
 
-        <button class="btn btn-success btn-sm" (click)="addProduct(product.id)">Add</button>
-        <button class="btn btn-danger btn-sm" (click)="removeProduct(product.id)">Remove</button>
+        <button id="addProduct" class="btn btn-success btn-sm" (click)="addProduct(product.id)">Add</button>
+        <button id="removeProduct" class="btn btn-danger btn-sm" (click)="removeProduct(product.id)">Remove</button>
       </td>
     </tr>
     </tbody>
   </table>
   <button *ngIf="!isShop()" class="btn btn-primary" (click)="enableShoppingMode()">Shopping</button>
-  <button *ngIf="isShop()" class="btn btn-danger" (click)="disableShoppingMode()">Cancel</button>
 </div>
 <div *ngIf="isShop()">
   <p>Shopping Cart</p>
@@ -66,7 +58,8 @@
       </tr>
       </tbody>
       <div>Total price: {{cart.totalPrice}}</div>
-      <button class="btn btn-primary" (click)="makeOrder(cart)">Order</button>
+      <button id="order" class="btn btn-primary" (click)="makeOrder(cart)">Order</button>
+      <button id="cancel" class="btn btn-danger" (click)="disableShoppingMode(cart)">Cancel</button>
     <ng-template #noProductsInCartTemplate>
       <p>Empty!!!!</p>
     </ng-template>
