@@ -96,8 +96,48 @@ Displays the product list, has two modes: list and shop
 
 ####carts
 Holds the two following components
-#####carts/cart-detail
-Not implemented, displays the cart detail
+#####carts/cart-list
+Provides a cart list for the current user
+
+###Providers
+####alert
+Handles the alert messages
+
+####authentication
+Provides access to the authentication endpoint
+
+####cart
+Provides access to the shopping cart endpoint
+
+####endpoint
+Stores all the endpoint entries
+
+####product
+Provides access to the product endpoint
+
+###Models
+####product
+Product and its attributes
+
+####user
+User
+
+####cart
+Cart
+
+###Pipes
+####format to price
+The prices are stored as cents in the database, this pipe converts them in francs
+
+####object to array
+Makes an object iterable in a "*ngFor" by converting it to an array of 2 items arrays
+ 
+####product filter
+filters an object from the text input
+ 
+###Guards
+####auth.guard
+Allows access to logged in users to the cart list and home section
 
 
 

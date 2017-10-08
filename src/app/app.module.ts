@@ -18,7 +18,6 @@ import { ProductFilterPipe } from './modules/home/product-list/product-filter.pi
 import { ProductDetailComponent } from './modules/home/product-detail/product-detail.component';
 import {ProductDetailResolve} from "./shared/resolves/product-resolve";
 import { CartListComponent } from './modules/carts/cart-list/cart-list.component';
-import { CartDetailComponent } from './modules/carts/cart-detail/cart-detail.component';
 import { HeaderComponent } from './modules/layout/header/header.component';
 import { CartsComponent } from './modules/carts/carts.component';
 import {CartService} from "./shared/providers/cart.service";
@@ -54,7 +53,6 @@ import {FormatToPricePipe} from "./shared/pipes/format-to-price";
     CartFilterPipe,
     ProductDetailComponent,
     CartListComponent,
-    CartDetailComponent,
     CartsComponent,
     ObjectToArrayPipe,
     FormatToPricePipe,
