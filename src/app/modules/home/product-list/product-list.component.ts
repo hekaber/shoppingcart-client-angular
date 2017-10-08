@@ -43,7 +43,7 @@ export class ProductListComponent implements OnInit {
     let token = localStorage.getItem(AUTH_TOKEN);
     let decodedToken = this._jwtHelper.decodeToken(token);
     this.userName = decodedToken.sub;
-    this._newCart = new Cart(CART_STATUS_PENDING, this.userName);
+    // this._newCart = new Cart(CART_STATUS_PENDING, this.userName);
   }
 
   ngOnInit() {
@@ -52,7 +52,10 @@ export class ProductListComponent implements OnInit {
     console.log('Checking for cart');
     this._cartId = localStorage.getItem(CURR_CART_ID);
     console.log(this._cartId);
-    if(this._cartId) this.cart$ = this._cartService.get(this._cartId)
+    if(this._cartId) this.cart$ = this._cartService.get(this._cartId).do(
+      (cart) => {
+        this._newCart = Cart.fromICart(cart);
+      })
       .catch(
         (error) => {
           this._resetValues();
@@ -65,6 +68,7 @@ export class ProductListComponent implements OnInit {
   enableShoppingMode(){
     this.mode = PRODUCT_LIST_MODE.SHOP;
     if(!this._cartId){
+      this._newCart = new Cart(CART_STATUS_PENDING, this.userName);
       this.cart$ = this._cartService.save(this._newCart)
         .do(cart => {
           this._cartId = cart.id;
@@ -106,7 +110,10 @@ export class ProductListComponent implements OnInit {
       (product) => {
         if(product.stock > 0){
           if(this._cartId){
-            this.cart$ = this._cartService.addProductToCart(this._cartId, product.id);
+            this.cart$ = this._cartService.addProductToCart(this._cartId, product.id).do(
+              (cart) => {
+                this._newCart = Cart.fromICart(cart);
+              });
             this.product$ = this._productService.getAll();
           }
         }
@@ -119,7 +126,10 @@ export class ProductListComponent implements OnInit {
 
   removeProduct(product): void {
     if (this._cartId) {
-      this.cart$ = this._cartService.removeProductFromCart(this._cartId, product.id);
+      this.cart$ = this._cartService.removeProductFromCart(this._cartId, product.id).do(
+        (cart) => {
+          this._newCart = Cart.fromICart(cart);
+        });
       this.product$ = this._productService.getAll();
     }
   }
@@ -144,6 +154,11 @@ export class ProductListComponent implements OnInit {
     return this.mode === PRODUCT_LIST_MODE.SHOP;
   }
 
+  isInCart(productId: string): boolean{
+    if(!this._newCart) return false;
+    return (productId in this._newCart.products);
+  }
+
   getDisplayImg(){
     return this._displayImg;
   }
@@ -153,5 +168,6 @@ export class ProductListComponent implements OnInit {
     localStorage.removeItem(CURR_CART_ID);
     this.cart$ = null;
     this._cartId = null;
+    this._newCart = null;
   }
 }

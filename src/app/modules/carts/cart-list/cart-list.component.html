@@ -1,11 +1,10 @@
 <h1>Cart List</h1>
-<input [(ngModel)]='listFilter' type="text" value="cart">
-<!--<p>{{ listFilter | reverse }}</p>-->
 <table class="table">
   <thead>
   <tr>
     <td>User name</td>
     <td>ID</td>
+    <td>Status</td>
     <td>Order date</td>
     <td>Last Modified</td>
     <td>Total price</td>
@@ -17,6 +16,7 @@
     <!--<td><a [routerLink]="['cart/' + cart.id]">{{ product.productName }}</a></td>-->
     <td>{{cart.userName}}</td>
     <td>{{ cart.id }}</td>
+    <td>{{ cart.status }}</td>
     <td>{{ cart.orderDate | date }}</td>
     <td>{{ cart.lastModified}}</td>
     <td>{{ cart.totalPrice | formatToPrice }}</td>
