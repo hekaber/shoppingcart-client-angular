@@ -100,16 +100,27 @@ export class ProductListComponent implements OnInit {
     this.toggleText = this._displayImg ? 'Hide Images' : 'Display Images';
   }
 
-  addProduct(productId: string): void {
-    console.log(productId);
-    if (this._cartId){
-      this.cart$ = this._cartService.addProductToCart(this._cartId, productId);
-    }
+  addProduct(product): void {
+    //get the latest informations for the product
+    this._productService.get(product.id).subscribe(
+      (product) => {
+        if(product.stock > 0){
+          if(this._cartId){
+            this.cart$ = this._cartService.addProductToCart(this._cartId, product.id);
+            this.product$ = this._productService.getAll();
+          }
+        }
+        else {
+          this._alertService.warn("Product " + product.id +" stock out.");
+        }
+      }
+    );
   }
 
-  removeProduct(productId: string): void {
+  removeProduct(product): void {
     if (this._cartId) {
-      this.cart$ = this._cartService.removeProductFromCart(this._cartId, productId);
+      this.cart$ = this._cartService.removeProductFromCart(this._cartId, product.id);
+      this.product$ = this._productService.getAll();
     }
   }
 

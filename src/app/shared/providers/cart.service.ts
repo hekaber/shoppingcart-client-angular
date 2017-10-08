@@ -97,14 +97,13 @@ export class CartService {
    * @param carts The data to sync our dataStore (can be array or flat product)
    */
   private _syncDataStore(carts: Array<ICart> | ICart) {
-    // Force products to be an array
     if (!Array.isArray(carts)) {
       carts = [carts];
     }
     carts.forEach(cart => {
       const cartId = cart.id;
       const currentIndex = this._dataStore.carts.findIndex(storeCart => storeCart.id === cartId);
-      if (currentIndex < 0) { // When not found product into dataStore
+      if (currentIndex < 0) {
         this._dataStore.carts.push(cart);
       } else {
         this._dataStore.carts[currentIndex] = cart;

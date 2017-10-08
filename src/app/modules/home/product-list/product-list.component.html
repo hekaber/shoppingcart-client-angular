@@ -23,9 +23,8 @@
       <td>{{ product.price | formatToPrice}}</td>
       <td><img width="50px" [src]='product.imageUrl' *ngIf="getDisplayImg()"></td>
       <td *ngIf="isShop()">
-
-        <button id="addProduct" class="btn btn-success btn-sm" (click)="addProduct(product.id)">Add</button>
-        <button id="removeProduct" class="btn btn-danger btn-sm" (click)="removeProduct(product.id)">Remove</button>
+        <button id="addProduct" class="btn btn-success btn-sm" (click)="addProduct(product)">Add</button>
+        <button id="removeProduct" class="btn btn-danger btn-sm" (click)="removeProduct(product)">Remove</button>
       </td>
     </tr>
     </tbody>
