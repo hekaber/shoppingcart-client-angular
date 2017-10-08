@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AsyncLocalStorageModule } from 'angular-async-local-storage'
 import { JwtHelper } from 'angular2-jwt';
 
 import { APP_ROUTES } from './app.routes';
@@ -64,7 +63,6 @@ import {FormatToPricePipe} from "./shared/pipes/format-to-price";
   ],
   imports: [
     BrowserModule,
-    AsyncLocalStorageModule,
     HttpModule,
     FormsModule,
     ReactiveFormsModule,

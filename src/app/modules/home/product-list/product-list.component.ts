@@ -43,7 +43,6 @@ export class ProductListComponent implements OnInit {
     let token = localStorage.getItem(AUTH_TOKEN);
     let decodedToken = this._jwtHelper.decodeToken(token);
     this.userName = decodedToken.sub;
-    // this._newCart = new Cart(CART_STATUS_PENDING, this.userName);
   }
 
   ngOnInit() {
