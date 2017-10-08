@@ -32,7 +32,7 @@
                   <label for="description">Product description</label>
                 </div>
                 <div class="col-sm-6">
-                  <textarea id="description" class="form-control" form="prodForm">{{ product.description }}</textarea>
+                  <textarea id="description" formControlName="description" class="form-control" form="prodForm">{{ product.description }}</textarea>
                 </div>
                 <div class="col-sm-3">
                   <label for="releaseDate">Product availability</label>
@@ -52,18 +52,12 @@
                 <div class="col-sm-6">
                   <input id="price" type="text" formControlName="price" [value]="product.price"/>
                 </div>
-                <!--<div class="col-sm-3">-->
-                  <!--<label for="rating">Product rating</label>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                  <!--<app-star-rating id="rating" [rating]="form.get('starRating').value"></app-star-rating>-->
-                <!--</div>-->
               </div>
 
               <div class="action">
                 <button class="btn btn-default" routerLink="../">Back to products</button>
-                <button class="btn btn-default" (click)="submit()">Save</button>
-                <input type="submit" [disabled]="form.invalid" />
+                <!--<button class="btn btn-default" (click)="submit()">Save</button>-->
+                <input class="btn btn-default" type="submit" [disabled]="form.invalid" />
               </div>
             </div>
           </div>
@@ -80,10 +74,6 @@
           </div>
           <div class="details col-md-6">
             <h3 class="product-title">{{ product.productName }}</h3>
-            <!--<div class="rating">-->
-              <!--<app-star-rating [rating]="product.starRating"></app-star-rating>-->
-              <!--<span class="review-no">41 reviews</span>-->
-            <!--</div>-->
             <p class="product-description">{{ product.description }}</p>
             <h4 class="price">current price: <span>{{ product.price }}</span></h4>
             <h4 class="stock">stock available: <span>{{ product.stock }}</span></h4>
@@ -91,7 +81,6 @@
 
             <div class="action">
               <button class="btn btn-default" routerLink="../">Back to products</button>
-              <!--<button class="btn btn-default" [routerLink]="['../', getNextProductId(product.id)]">Next product {{ getNextProductId(product.id) }}</button>-->
             </div>
           </div>
         </div>

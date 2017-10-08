@@ -74,6 +74,7 @@ export class ProductDetailComponent {
 
   submit() {
     console.log('Submit');
+    console.log(this.form.value);
     this._productService
       .update(this.form.value)
       .subscribe(product => {this.toggleMode()});
