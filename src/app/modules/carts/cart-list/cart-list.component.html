@@ -19,7 +19,7 @@
     <td>{{ cart.id }}</td>
     <td>{{ cart.orderDate | date }}</td>
     <td>{{ cart.lastModified}}</td>
-    <td>{{ cart.totalPrice }}</td>
+    <td>{{ cart.totalPrice | formatToPrice }}</td>
   </tr>
   </tbody>
   <span>{{errorMsg}}</span>
