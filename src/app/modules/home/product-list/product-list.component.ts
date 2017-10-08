@@ -138,6 +138,7 @@ export class ProductListComponent implements OnInit {
   }
 
   private _resetValues(){
+    // TODO: should use cookies instead?
     localStorage.removeItem(CURR_CART_ID);
     this.cart$ = null;
     this._cartId = null;
