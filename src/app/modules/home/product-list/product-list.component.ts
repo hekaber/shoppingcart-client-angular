@@ -81,17 +81,16 @@ export class ProductListComponent implements OnInit {
   }
 
   disableShoppingMode(cart: ICart){
-    console.log(cart);
     this.mode = PRODUCT_LIST_MODE.LIST;
     if(cart.status === "pending"){
-      this._cartService.delete(cart.id).subscribe(
+      this._cartService.remove(cart.id).subscribe(
         (resp) => {
-          this._alertService.info("Cart " + cart.id + " deleted.");
+          this._alertService.info("Pending shopping cart " + cart.id + " deleted.");
           this._resetValues();
         },
         (err) => {
           console.log(err);
-          this._alertService.error("Could not delete cart " + cart.id);
+          this._alertService.error("Could not remove cart " + cart.id);
         });
     }
   }
@@ -115,13 +114,19 @@ export class ProductListComponent implements OnInit {
   }
 
   makeOrder(cart: ICart){
-    this.cart$ = this._cartService.order(cart)
-      .do((cart) =>{
-        console.log(cart);
-        this._alertService.success("Cart " + cart.id + " ordered!!!");
-        this._resetValues();
-        this.mode = PRODUCT_LIST_MODE.LIST;
-    });
+    console.log(cart.products);
+    if(Object.keys(cart.products).length === 0){
+      this._alertService.warn("You must have products in the cart to make an order.");
+    }
+    else {
+      this.cart$ = this._cartService.order(cart)
+        .do((cart) =>{
+          console.log(cart);
+          this._alertService.success("Cart " + cart.id + " ordered!!!");
+          this._resetValues();
+          this.mode = PRODUCT_LIST_MODE.LIST;
+        });
+    }
   }
 
   isShop(){

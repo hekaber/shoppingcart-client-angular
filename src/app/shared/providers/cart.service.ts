@@ -45,7 +45,7 @@ export class CartService {
     return this._request(RequestMethod.Put, this._endpoints.getCart(cart.id), cart);
   }
 
-  delete(cartId: string): Observable<any>{
+  remove(cartId: string): Observable<any>{
     // return this
     return this._request(RequestMethod.Delete, this._endpoints.getCart(cartId));
   }
