@@ -1,28 +1,24 @@
-import {Component, Input, OnChanges, OnInit, SimpleChange} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 
-import {IProduct} from "../../models/product";
-import {Cart, ICart} from "../../models/cart";
-import {CartService} from "../../providers/cart.service";
-import {PRODUCT_ACTION, ProductAction} from "../../models/product-action";
-import {ProductService} from "../../providers/product.service";
-import {CART_STATUS_PENDING, CURR_CART_ID} from "../../constants";
-import {PRODUCT_LIST_MODE} from "../../../modules/home/product-list/product-list.component";
-import {AlertService} from "../../providers/alert.service";
+import {Cart, ICart} from "../../../shared/models/cart";
+import {CartService} from "../../../shared/providers/cart.service";
+import {PRODUCT_ACTION, ProductAction} from "../../../shared/models/product-action";
+import {ProductService} from "../../../shared/providers/product.service";
+import {CART_STATUS_PENDING, CURR_CART_ID} from "../../../shared/constants";
+import {AlertService} from "../../../shared/providers/alert.service";
 
 @Component({
   selector: 'app-cart-detail',
   templateUrl: './cart-detail.component.html',
   styleUrls: ['./cart-detail.component.css']
 })
-
 export class CartDetailComponent implements OnInit, OnChanges {
   public cart$: Observable<ICart>;
 
-  // @Input() products: Observable<IProduct>;
   @Input() productAction: any;
   @Input() userName: string;
-  changeLog: string[] = [];
+  @Output() onShoppingModeEnded = new EventEmitter<void>();
 
   private _cartId: string;
   private _newCart: Cart;
@@ -31,18 +27,15 @@ export class CartDetailComponent implements OnInit, OnChanges {
     private _cartService: CartService,
     private _productService: ProductService,
     private _alertService: AlertService
-  ) {
-    console.log('constructor');
-  }
+  ) {}
 
   ngOnInit() {
     console.log('Checking for cart');
     this._initCart();
   }
 
+  //watches the changes on productAction property
   ngOnChanges(changes: {[propKey: string]: SimpleChange}){
-    let log: string[] = [];
-    console.log(changes);
     for (let propName in changes) {
       let changedProp = changes[propName];
 
@@ -53,21 +46,7 @@ export class CartDetailComponent implements OnInit, OnChanges {
         default:
           break;
       }
-
-      // changedProp.currentValue.subscribe(
-      //   (products) => { console.log(products); },
-      //   (err) => { console.log(err); }
-      // );
-
-      // let to = JSON.stringify(changedProp.currentValue);
-      // if (changedProp.isFirstChange()) {
-      //   log.push(`Initial value of ${propName} set to ${to}`);
-      // } else {
-      //   let from = JSON.stringify(changedProp.previousValue);
-      //   log.push(`${propName} changed from ${from} to ${to}`);
-      // }
     }
-    this.changeLog.push(log.join(', '));
   }
 
   addProduct(productId: string){
@@ -87,7 +66,7 @@ export class CartDetailComponent implements OnInit, OnChanges {
         }
       },
       (error) => {
-        console.log(error);
+        this._alertService.error("Add product error " + error.message);
       });
   }
 
@@ -96,8 +75,10 @@ export class CartDetailComponent implements OnInit, OnChanges {
       this.cart$ = this._cartService.removeProductFromCart(this._cartId, productId).do(
         (cart) => {
           this._newCart = Cart.fromICart(cart);
+        },
+        (error) => {
+          this._alertService.error("Remove product error " + error.message);
         });
-      // this.product$ = this._productService.getAll();
     }
   }
 
@@ -114,7 +95,7 @@ export class CartDetailComponent implements OnInit, OnChanges {
         .catch(
           (error) => {
             this._resetValues();
-            // TODO: send some event to the parent component
+            this._alertService.error("Could not retrieve the cart with id " + this._cartId);
             return Observable.throw(new Error(error));
           });
     }
@@ -128,19 +109,50 @@ export class CartDetailComponent implements OnInit, OnChanges {
           console.log(this._newCart);
         }).catch(
           (error) => {
-            this._alertService.error("Error " + error.message);
+            this._alertService.error("Init cart error " + error.message);
             return Observable.throw(new Error(error));
           }
         );
     }
   }
 
-  makeOrder(cart: ICart){
-
+  orderCart(cart: ICart){
+    console.log(cart.products);
+    if(Object.keys(cart.products).length === 0){
+      this._alertService.warn("You must have products in the cart to make an order.");
+    }
+    else {
+      this._cartService.order(cart).subscribe(
+        (cart) => {
+          console.log(cart);
+          this._alertService.success("Cart " + cart.id + " ordered!!!");
+          this._resetValues();
+          this.onShoppingModeEnded.emit();
+        },
+        (err) => {
+          console.log(err);
+          this._alertService.error("Could not order cart " + cart.id);
+        });
+    }
   }
 
-  disableShoppingMode(cart: ICart){
+  cancelCart(cart: ICart){
+    if(cart.status === "pending"){
+      this._cartService.remove(cart.id).subscribe(
+        () => {
+          this._alertService.info("Pending shopping cart " + cart.id + " deleted.");
+          this._resetValues();
+          this.onShoppingModeEnded.emit();
+        },
+        (err) => {
+          console.log(err);
+          this._alertService.error("Could not remove cart " + cart.id);
+        });
+    }
+  }
 
+  isInCart(productId: string): boolean{
+    return (this._newCart) ? (productId in this._newCart.products) : false;
   }
 
   private _handleProductActionChange(productAction: ProductAction){

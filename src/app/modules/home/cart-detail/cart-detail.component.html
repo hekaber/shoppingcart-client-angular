@@ -27,7 +27,7 @@
     <p>Empty!!!!</p>
   </ng-template>
   <h2>Total price: {{cart.totalPrice | formatToPrice }}</h2>
-  <button id="order" class="btn btn-primary" (click)="makeOrder(cart)">Order</button>
+  <button id="order" class="btn btn-primary" (click)="orderCart(cart)">Order</button>
   <button id="cancel" class="btn btn-danger" (click)="cancelCart(cart)">Cancel</button>
 </div>
 <ng-template #noCartTemplate>

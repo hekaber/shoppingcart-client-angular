@@ -1,14 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, forwardRef, OnInit, ViewChild} from '@angular/core';
 import {JwtHelper} from "angular2-jwt";
-import { Observable } from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 
-import { IProduct } from '../../../shared/models/product';
-import { ProductService } from '../../../shared/providers/product.service';
-import {CartService} from "../../../shared/providers/cart.service";
-import {AUTH_TOKEN, CART_STATUS_PENDING, CURR_CART_ID} from "../../../shared/constants";
-import {Cart, ICart} from "../../../shared/models/cart";
-import {AlertService} from "../../../shared/providers/alert.service";
+import {IProduct} from '../../../shared/models/product';
+import {ProductService} from '../../../shared/providers/product.service';
+import {AUTH_TOKEN} from "../../../shared/constants";
 import {PRODUCT_ACTION, ProductAction} from "../../../shared/models/product-action";
+import {CartDetailComponent} from "../cart-detail/cart-detail.component";
 
 export enum PRODUCT_LIST_MODE {
   LIST,
@@ -22,25 +20,25 @@ export enum PRODUCT_LIST_MODE {
 })
 export class ProductListComponent implements OnInit {
 
+  //forwardRef because the CartComponent is not yet defined
+  //this is only used to handle the display of the remove button
+  @ViewChild(forwardRef(() => CartDetailComponent))
+  private cartDetailComponent: CartDetailComponent;
+
   public toggleText: string  = 'Hide Images';
   public product$: Observable<IProduct[]>;
-  public cart$: Observable<ICart>;
   public listFilter: string = '';
   public userName: string = '';
   public productAction: ProductAction;
 
   private _displayImg: boolean = true;
-  private _newCart: Cart;
-  private _cartId: string;
   private mode: PRODUCT_LIST_MODE = PRODUCT_LIST_MODE.LIST;
 
 
 
   constructor(
     private _productService: ProductService,
-    private _cartService: CartService,
-    private _jwtHelper: JwtHelper,
-    private _alertService: AlertService
+    private _jwtHelper: JwtHelper
   ) {
     let token = localStorage.getItem(AUTH_TOKEN);
     let decodedToken = this._jwtHelper.decodeToken(token);
@@ -50,56 +48,14 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     console.log('Product list Init!!!!!!');
     this.product$ = this._productService.getAll();
-    /////////////////////////////////////////////////////////
-    console.log('Checking for cart');
-    this._cartId = localStorage.getItem(CURR_CART_ID);
-    console.log(this._cartId);
-    if(this._cartId) this.cart$ = this._cartService.get(this._cartId).do(
-      (cart) => {
-        this._newCart = Cart.fromICart(cart);
-      })
-      .catch(
-        (error) => {
-          this._resetValues();
-          this.mode = PRODUCT_LIST_MODE.LIST;
-          return Observable.throw(new Error(error));
-        });
-    ///////////////////////////////////////////////////////////
-
   }
 
   enableShoppingMode(){
     this.mode = PRODUCT_LIST_MODE.SHOP;
-    if(!this._cartId){
-      this._newCart = new Cart(CART_STATUS_PENDING, this.userName);
-      this.cart$ = this._cartService.save(this._newCart)
-        .do(cart => {
-          this._cartId = cart.id;
-          localStorage.setItem(CURR_CART_ID, cart.id);
-          this._newCart = Cart.fromICart(cart);
-          console.log(this._newCart);
-        }).catch(
-          (error) => {
-            this._alertService.error("Error " + error.message);
-            return Observable.throw(new Error(error));
-          }
-        );
-    }
   }
 
-  disableShoppingMode(cart: ICart){
+  onShoppingModeEnded(){
     this.mode = PRODUCT_LIST_MODE.LIST;
-    if(cart.status === "pending"){
-      this._cartService.remove(cart.id).subscribe(
-        (resp) => {
-          this._alertService.info("Pending shopping cart " + cart.id + " deleted.");
-          this._resetValues();
-        },
-        (err) => {
-          console.log(err);
-          this._alertService.error("Could not remove cart " + cart.id);
-        });
-    }
   }
 
   toggleImage(): void {
@@ -115,40 +71,15 @@ export class ProductListComponent implements OnInit {
     this.productAction = new ProductAction(product.id, PRODUCT_ACTION.REMOVE);
   }
 
-  makeOrder(cart: ICart){
-    console.log(cart.products);
-    if(Object.keys(cart.products).length === 0){
-      this._alertService.warn("You must have products in the cart to make an order.");
-    }
-    else {
-      this.cart$ = this._cartService.order(cart)
-        .do((cart) =>{
-          console.log(cart);
-          this._alertService.success("Cart " + cart.id + " ordered!!!");
-          this._resetValues();
-          this.mode = PRODUCT_LIST_MODE.LIST;
-        });
-    }
-  }
-
   isShop(){
     return this.mode === PRODUCT_LIST_MODE.SHOP;
   }
 
   isInCart(productId: string): boolean{
-    if(!this._newCart) return false;
-    return (productId in this._newCart.products);
+    return (this.cartDetailComponent) ? this.cartDetailComponent.isInCart(productId) : false;
   }
 
   getDisplayImg(){
     return this._displayImg;
-  }
-
-  private _resetValues(){
-    // TODO: should use cookies instead?
-    localStorage.removeItem(CURR_CART_ID);
-    this.cart$ = null;
-    this._cartId = null;
-    this._newCart = null;
   }
 }
