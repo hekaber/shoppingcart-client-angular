@@ -17,7 +17,7 @@
     <tr *ngFor="let prod of (cart.products | objectToArray)">
       <td><a [routerLink]="['product/' + prod[0]]">{{ prod[1].productName }}</a></td>
       <td>{{ prod[1].productCode }}</td>
-      <td>{{ prod[1].price }}</td>
+      <td>{{ prod[1].price | formatToPrice }}</td>
       <td>{{ prod[1].description }}</td>
       <td>{{cart.productQuantities[prod[1].id]}}</td>
     </tr>
@@ -28,7 +28,7 @@
   </ng-template>
   <h2>Total price: {{cart.totalPrice | formatToPrice }}</h2>
   <button id="order" class="btn btn-primary" (click)="makeOrder(cart)">Order</button>
-  <button id="cancel" class="btn btn-danger" (click)="disableShoppingMode(cart)">Cancel</button>
+  <button id="cancel" class="btn btn-danger" (click)="cancelCart(cart)">Cancel</button>
 </div>
 <ng-template #noCartTemplate>
   <p>No cart created</p>
