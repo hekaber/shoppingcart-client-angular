@@ -56,6 +56,7 @@ export class ProductListComponent implements OnInit {
 
   onShoppingModeEnded(){
     this.mode = PRODUCT_LIST_MODE.LIST;
+    this.product$ = this._productService.getAll();
   }
 
   toggleImage(): void {
