@@ -28,6 +28,7 @@ import {AuthGuard} from "./shared/guards/auth.guard";
 import { AlertComponent } from './shared/alert/alert.component';
 import {AlertService} from "./shared/providers/alert.service";
 import {FormatToPricePipe} from "./shared/pipes/format-to-price";
+import { CartDetailComponent } from './shared/components/cart-detail/cart-detail.component';
 
 
 // Auth Factory
@@ -57,7 +58,8 @@ import {FormatToPricePipe} from "./shared/pipes/format-to-price";
     ObjectToArrayPipe,
     FormatToPricePipe,
     WelcomeComponent,
-    AlertComponent
+    AlertComponent,
+    CartDetailComponent
   ],
   imports: [
     BrowserModule,
