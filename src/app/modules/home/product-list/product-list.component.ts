@@ -8,6 +8,7 @@ import {CartService} from "../../../shared/providers/cart.service";
 import {AUTH_TOKEN, CART_STATUS_PENDING, CURR_CART_ID} from "../../../shared/constants";
 import {Cart, ICart} from "../../../shared/models/cart";
 import {AlertService} from "../../../shared/providers/alert.service";
+import {PRODUCT_ACTION, ProductAction} from "../../../shared/models/product-action";
 
 export enum PRODUCT_LIST_MODE {
   LIST,
@@ -26,6 +27,7 @@ export class ProductListComponent implements OnInit {
   public cart$: Observable<ICart>;
   public listFilter: string = '';
   public userName: string = '';
+  public productAction: ProductAction;
 
   private _displayImg: boolean = true;
   private _newCart: Cart;
@@ -48,6 +50,7 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     console.log('Product list Init!!!!!!');
     this.product$ = this._productService.getAll();
+    /////////////////////////////////////////////////////////
     console.log('Checking for cart');
     this._cartId = localStorage.getItem(CURR_CART_ID);
     console.log(this._cartId);
@@ -61,6 +64,7 @@ export class ProductListComponent implements OnInit {
           this.mode = PRODUCT_LIST_MODE.LIST;
           return Observable.throw(new Error(error));
         });
+    ///////////////////////////////////////////////////////////
 
   }
 
@@ -104,33 +108,11 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct(product): void {
-    //get the latest informations for the product
-    this._productService.get(product.id).subscribe(
-      (product) => {
-        if(product.stock > 0){
-          if(this._cartId){
-            this.cart$ = this._cartService.addProductToCart(this._cartId, product.id).do(
-              (cart) => {
-                this._newCart = Cart.fromICart(cart);
-              });
-            this.product$ = this._productService.getAll();
-          }
-        }
-        else {
-          this._alertService.warn("Product " + product.id +" stock out.");
-        }
-      }
-    );
+    this.productAction = new ProductAction(product.id, PRODUCT_ACTION.ADD);
   }
 
   removeProduct(product): void {
-    if (this._cartId) {
-      this.cart$ = this._cartService.removeProductFromCart(this._cartId, product.id).do(
-        (cart) => {
-          this._newCart = Cart.fromICart(cart);
-        });
-      this.product$ = this._productService.getAll();
-    }
+    this.productAction = new ProductAction(product.id, PRODUCT_ACTION.REMOVE);
   }
 
   makeOrder(cart: ICart){

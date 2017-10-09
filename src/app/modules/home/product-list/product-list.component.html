@@ -37,7 +37,7 @@
 
 <!--TODO: put this in another component-->
 <div *ngIf="isShop()" class="shop">
-  <app-cart-detail></app-cart-detail>
+  <app-cart-detail [productAction]="productAction" [userName]="userName"></app-cart-detail>
 </div>
 <alert></alert>
 
