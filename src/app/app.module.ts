@@ -28,7 +28,7 @@ import {AuthGuard} from "./shared/guards/auth.guard";
 import { AlertComponent } from './shared/alert/alert.component';
 import {AlertService} from "./shared/providers/alert.service";
 import {FormatToPricePipe} from "./shared/pipes/format-to-price";
-import { CartDetailComponent } from './shared/components/cart-detail/cart-detail.component';
+import { CartDetailComponent } from './modules/home/cart-detail/cart-detail.component';
 
 
 // Auth Factory
